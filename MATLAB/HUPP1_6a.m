@@ -34,9 +34,9 @@ omega_in=1e-3; % 1/e2-radie (för intensiteten, dvs 1/e-radie för amplituden) för
 E_in_gauss=exp(-rmat.^2/omega_in^2); % Infallande fält: Gaussiskt med plana vågfronter och normalinfall (dvs konstant fas, här=0)
 
 E_in_konstant=ones(N,N); % Infallande fält: Plan våg med normalt infall
-r=sqrt(4^2+xmat.^2+ymat.^2);
-E_in = exp(1i*k.*r)./r;
-E_in_DOE = E_in .*T_DOE.*T_lins;
+r=sqrt(4^2+xmat.^2+ymat.^2); % Vektorn från laserpekaren till plan 1
+E_in = exp(1i*k.*r)./r; % Punktkälla, sfärisk våg
+E_in_DOE = E_in .*T_DOE.*T_lins; % E1 passerat genom DOE:en och linsen
 
 E1_gauss=E_in_gauss.*T_lins*T_DOE; % Fältet i Plan 1 (precis efter linsen) för gaussisk stråle 
 E1_cirkular=E_in_konstant.* T_lins .* T_apertur; % Fältet i Plan 1 (precis efter linsen) för konstant fält som passerat genom cirkulär apertur *** Ej klar 
@@ -51,26 +51,24 @@ E1= E_in_DOE;
 
 
 I1=abs(E1).^2; % intensiteten är prop mot kvadraten på fältets amplitud (normalt struntar man i proportionalitetskonstanten)
-% figure(1)
-% image(xvekt*1e3,yvekt*1e3,I1/max(max(I1))*full_white_value)
-% title('Intensitet i Plan 1. Verkar OK, eller?')
-% xlabel('x [mm]')
-% ylabel('y [mm]')
-% colormap(gray) 
-% drawnow
-% axis('equal')
+figure(1)
+image(xvekt*1e3,yvekt*1e3,I1/max(max(I1))*full_white_value)
+title('Intensitet i Plan 1. Verkar OK, eller?')
+xlabel('x [mm]')
+ylabel('y [mm]')
+colormap(gray) 
+drawnow
+axis('equal')
 
-% figure(2)
-% imagesc(xvekt*1e3,yvekt*1e3,angle(E1))
-% title('Fas i Plan 1. Verkar OK, eller?')
-% xlabel('x [mm]')
-% ylabel('y [mm]')
-% colormap(gray) 
-% colorbar
-% drawnow
-% axis('equal')
-
-% pause % tryck på valfri tangent för att fortsätta
+figure(2)
+imagesc(xvekt*1e3,yvekt*1e3,angle(E1))
+title('Fas i Plan 1. Verkar OK, eller?')
+xlabel('x [mm]')
+ylabel('y [mm]')
+colormap(gray) 
+colorbar
+drawnow
+axis('equal')
 
 %**** Och nu propagerar vi till Plan 2!
 
@@ -88,11 +86,11 @@ colormap(gray)
 drawnow
 axis('equal')
 
-% figure(4)
-% plot(xvekt*1e3,I2(N/2+1,:))
-% title(['Intensitet längs x-axeln efter ' num2str(L*1e3) ' mm propagation. Verkar OK, eller?'])
-% xlabel('x [mm]')
-% drawnow
+figure(4)
+plot(xvekt*1e3,I2(N/2+1,:))
+title(['Intensitet längs x-axeln efter ' num2str(L*1e3) ' mm propagation. Verkar OK, eller?'])
+xlabel('x [mm]')
+drawnow
 
 
 

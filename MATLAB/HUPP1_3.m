@@ -40,25 +40,25 @@ E1=E1_gauss; % Välj fall!
 % E1=E1_in_hermitegauss; 
 
 
-% I1=abs(E1).^2; % intensiteten är prop mot kvadraten på fältets amplitud (normalt struntar man i proportionalitetskonstanten)
-% figure(1)
-% image(xvekt*1e3,yvekt*1e3,I1/max(max(I1))*full_white_value)
-% title('Intensitet i Plan 1. Verkar OK, eller?')
-% xlabel('x [mm]')
-% ylabel('y [mm]')
-% colormap(gray) 
-% drawnow
-% axis('equal')
-% 
-% figure(2)
-% imagesc(xvekt*1e3,yvekt*1e3,angle(E1))
-% title('Fas i Plan 1. Verkar OK, eller?')
-% xlabel('x [mm]')
-% ylabel('y [mm]')
-% colormap(gray) 
-% colorbar
-% drawnow
-% axis('equal')
+I1=abs(E1).^2; % intensiteten är prop mot kvadraten på fältets amplitud (normalt struntar man i proportionalitetskonstanten)
+figure(1)
+image(xvekt*1e3,yvekt*1e3,I1/max(max(I1))*full_white_value)
+title('Intensitet i Plan 1. Verkar OK, eller?')
+xlabel('x [mm]')
+ylabel('y [mm]')
+colormap(gray) 
+drawnow
+axis('equal')
+
+figure(2)
+imagesc(xvekt*1e3,yvekt*1e3,angle(E1))
+title('Fas i Plan 1. Verkar OK, eller?')
+xlabel('x [mm]')
+ylabel('y [mm]')
+colormap(gray) 
+colorbar
+drawnow
+axis('equal')
 
 % pause % tryck på valfri tangent för att fortsätta
 
@@ -69,24 +69,27 @@ E2=PAS(E1,L,N,a,lambda_noll,n_medium); % Propagation med PAS-funktionen *** Klar
 I2=abs(E2).^2; 
 mattnadsfaktor_plot=50; % anger hur många gånger maxvärdet ska vara mättat i plotten (>1, kan vara bra om man vill se svagare detaljer)
 
-% figure(3)
-% image(xvekt*1e3,yvekt*1e3,I2/max(max(I2))*full_white_value*mattnadsfaktor_plot)
-% title(['Intensitet efter ' num2str(L*1e3) ' mm propagation (mattnadsfaktor=' num2str(mattnadsfaktor_plot) '). Verkar OK, eller?'])
-% xlabel('x [mm]')
-% ylabel('y [mm]')
-% colormap(gray) 
-% drawnow
-% axis('equal')
+figure(3)
+image(xvekt*1e3,yvekt*1e3,I2/max(max(I2))*full_white_value*mattnadsfaktor_plot)
+title(['Intensitet efter ' num2str(L*1e3) ' mm propagation (mattnadsfaktor=' num2str(mattnadsfaktor_plot) '). Verkar OK, eller?'])
+xlabel('x [mm]')
+ylabel('y [mm]')
+colormap(gray) 
+drawnow
+axis('equal')
 
 figure(4)
-yline(1/exp(2));
+A = 1/exp(2)*[2416.89 24.18];
+yline(A(1));
+% yline(A(2));
 hold on
 plot(xvekt*1e3,I2(N/2+1,:))
 title(['Intensitet längs x-axeln efter ' num2str(L*1e3) ' mm propagation. Verkar OK, eller?'])
 xlabel('x [mm]')
 drawnow
 
-D_spot = [0.046728e-3 0.32245e-3];
-C=2.*D_spot.*omega_in./(lambda_noll.*[100e-3 1000e-3]);
+
+D_spot = [0.0204239e-3 0.202389e-3];
+C=2.*D_spot*2*omega_in./(lambda_noll.*[100e-3 1000e-3]); % Faktor tillkommer 2 för diametern = 2 * radien
 
 

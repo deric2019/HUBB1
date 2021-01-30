@@ -78,14 +78,12 @@ drawnow
 axis('equal')
 
 figure(4)
-yline(1/exp(2));
-hold on
 plot(xvekt*1e3,I2(N/2+1,:))
 title(['Intensitet längs x-axeln efter ' num2str(L*1e3) ' mm propagation. Verkar OK, eller?'])
 xlabel('x [mm]')
 drawnow
 
-D_spot = [0.03868e-3 0.404e-3];
+D_spot = [0.03868e-3 0.392e-3];
 C=2.*D_spot.*D_apertur./(lambda_noll.*[100e-3 1000e-3]);
 
 
